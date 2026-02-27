@@ -1,0 +1,691 @@
+/* Admin.module.css — Estilos específicos del panel Admin */
+
+/* ── Layout principal ─────────────────────────────────────────── */
+.adminLayout {
+    display: grid;
+    grid-template-columns: 320px 1fr 300px;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    gap: 0;
+    overflow: hidden;
+    /* Prevent body scroll if content fits */
+}
+
+@media (max-width: 1200px) {
+    .adminLayout {
+        grid-template-columns: 280px 1fr 260px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .adminLayout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        /* Header, Controls, Board, Players */
+        overflow-y: auto;
+    }
+}
+
+.header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.connectionDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-danger);
+    transition: background 0.3s;
+}
+
+.connectionDot.connected {
+    background: var(--color-success);
+}
+
+/* ── Sidebar izquierdo ────────────────────────────────────────── */
+.sidebar {
+    padding: 24px 20px;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+}
+
+/* ── Sidebar derecho (Jugadores) ──────────────────────────────── */
+.rightSidebar {
+    padding: 24px 20px;
+    border-left: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ── Área principal ───────────────────────────────────────────── */
+.mainArea {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: calc(100vh - 65px);
+    overflow: hidden;
+}
+
+/* Fila horizontal: tablero + progreso */
+.mainRow {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* ── Títulos de sección ───────────────────────────────────────── */
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 16px;
+}
+
+/* ── RoomSetup ────────────────────────────────────────────────── */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.select {
+    cursor: pointer;
+}
+
+.roomInfoCard {}
+
+.roomInfoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.roomId {
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.roomId span {
+    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+}
+
+.urlBlock {
+    flex: 1;
+    min-width: 200px;
+}
+
+.urlCode {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.08);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    word-break: break-all;
+    margin-top: 4px;
+}
+
+.roomInfoBody {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.qrWrapper {
+    text-align: center;
+}
+
+.qrImage {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    border: 3px solid var(--color-border-2);
+}
+
+.urlsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.urlItem {}
+
+.urlSmall {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    background: var(--color-surface-2);
+    padding: 6px 10px;
+    border-radius: 6px;
+    word-break: break-all;
+    margin-top: 4px;
+}
+
+/* ── GameControls ─────────────────────────────────────────────── */
+.controlsCard {}
+
+.controlsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.ballCounter {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.ballCountNum {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-primary);
+}
+
+.controlsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.drawBtn {
+    position: relative;
+    font-size: 1.1rem;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    box-shadow: 0 6px 25px rgba(108, 99, 255, 0.4);
+}
+
+.remainingBadge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-left: 8px;
+}
+
+.speechToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ── Auto-sorteo ──────────────────────────────────────────────── */
+.drawModePanel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.drawModeToggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    background: var(--color-surface-2);
+    padding: 4px;
+    border-radius: var(--radius-md);
+}
+
+.autoDrawControls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: rgba(0, 230, 118, 0.05);
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    border-radius: var(--radius-md);
+    animation: fadeIn 0.25s ease;
+}
+
+.autoDrawStatus {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.autoDrawDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: autoPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes autoPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+.speedSelector {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.speedOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+
+/* ── PlayerList ───────────────────────────────────────────────── */
+.playerListCard {}
+
+.playerListHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.playerCount {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.countConnected {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-success);
+}
+
+.countDisconnected {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-danger);
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 0;
+}
+
+.emptyIcon {
+    font-size: 2rem;
+}
+
+.playerList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.playerItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--color-surface-2);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    transition: opacity 0.3s;
+}
+
+.playerDisconnected {
+    opacity: 0.45;
+}
+
+.playerAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.playerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.playerName {
+    font-weight: 600;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.onlineLabel {
+    color: var(--color-success);
+}
+
+.offlineLabel {
+    color: var(--color-danger);
+}
+
+/* Ranking position */
+.playerRank {
+    font-size: 1rem;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+    font-weight: 700;
+    color: var(--color-text-muted);
+}
+
+/* Contador X/25 */
+.markedCount {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--color-text);
+    flex-shrink: 0;
+}
+
+.markedTotal {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+/* Barra de progreso */
+.progressBar {
+    width: 100%;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.progressFill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.5s ease, background 0.5s ease;
+}
+
+
+/* ── DrawnNumbers ─────────────────────────────────────────────── */
+.drawnCard {
+    flex: 0 0 50%;
+    /* fijo al 50% izquierdo */
+    min-width: 380px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Columna derecha del mainRow: ocupa el 50% restante */
+.mainRowRight {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    min-width: 0;
+}
+
+/* Sub-fila dentro de mainRowRight: Progreso (span 2 filas) | Soporte / Coincidencia */
+.infoGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+    align-items: start;
+    width: 100%;
+}
+
+/* RoomProgress ocupa ambas filas de la columna izquierda */
+.infoGridLeft {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .infoGrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .infoGridLeft {
+        grid-row: auto;
+        grid-column: auto;
+        height: auto;
+    }
+}
+
+
+
+.drawnHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.currentBallMini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--color-surface-2);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-2);
+    margin-bottom: 16px;
+}
+
+.currentBallLetter {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.currentBallNum {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.currentBallNick {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.columnsGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.columnHeader {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 900;
+    padding: 6px 0;
+    border-bottom: 2px solid;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+}
+
+.numberGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.numCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 24px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    color: var(--color-text-dim);
+    transition: all 0.2s;
+    cursor: default;
+}
+
+.numDrawn {
+    font-weight: 800;
+    transform: scale(1.05);
+}
+
+.numCurrent {
+    box-shadow: 0 0 12px currentColor;
+    animation: pulse-current 1s ease-in-out infinite;
+}
+
+@keyframes pulse-current {
+
+    0%,
+    100% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+/* ── NicknameEditor ───────────────────────────────────────────── */
+.nicknameCard {}
+
+.nicknameRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.nicknameBall {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.nicknameText {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.nicknameInput {
+    flex: 1;
+    min-width: 180px;
+}
+
+/* ── Winner Banner ────────────────────────────────────────────── */
+.winnerBanner {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 212, 255, 0.1));
+    border: 1px solid rgba(0, 230, 118, 0.4);
+    border-radius: var(--radius-xl);
+    text-align: center;
+    animation: scaleIn 0.4s ease;
+}
+
+.winnerTitle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--color-success);
+    margin-bottom: 4px;
+}
+
+.winnerName {
+    font-size: 1.1rem;
+    color: var(--color-text);
+}

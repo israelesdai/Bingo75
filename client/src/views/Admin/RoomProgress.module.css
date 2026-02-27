@@ -1,0 +1,126 @@
+/* RoomProgress.module.css — Sección de progreso colectivo de la sala */
+
+/* Variables de color específicas del componente */
+.card {
+    --rp-blue: #4fc3f7;
+    --rp-purple: #ab47bc;
+    --rp-green: #00e676;
+    --rp-orange: #ff9800;
+    --rp-red: #ff5252;
+
+    width: 100%;
+    /* ocupa el 100% de su celda en el grid */
+    align-self: flex-start;
+    /* no estira verticalmente */
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 18px 20px;
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* Título */
+.title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+/* Lista de grupos */
+.groupList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Fila individual de grupo */
+.groupRow {
+    display: grid;
+    grid-template-columns: 14px 1fr auto;
+    grid-template-rows: auto 6px;
+    column-gap: 10px;
+    row-gap: 5px;
+    align-items: center;
+}
+
+/* Punto de color circular */
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+}
+
+/* Etiqueta del rango */
+.groupLabel {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    grid-row: 1;
+    grid-column: 2;
+    white-space: nowrap;
+}
+
+/* Cantidad de jugadores */
+.groupCount {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 900;
+    grid-row: 1;
+    grid-column: 3;
+    text-align: right;
+    min-width: 20px;
+}
+
+/* Pista de la barra (fondo) */
+.barTrack {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+/* Relleno de la barra */
+.barFill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Mensaje de hito */
+.milestone {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-success);
+    background: rgba(0, 230, 118, 0.08);
+    border: 1px solid rgba(0, 230, 118, 0.25);
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: center;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
