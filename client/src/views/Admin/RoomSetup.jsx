@@ -52,31 +52,45 @@ export default function RoomSetup({ onCreateRoom, roomInfo, isConnected }) {
                 Configura la sala antes de que los jugadores se unan.
             </p>
 
-            <div className={styles.formGrid}>
-                <div>
-                    <label className="label">Tipo de sesión</label>
-                    <select
-                        id="sessionType"
-                        className={`input select ${styles.select}`}
-                        value={sessionType}
-                        onChange={(e) => setSessionType(e.target.value)}
-                    >
-                        <option value="single">Sesión única (1 ronda)</option>
-                        <option value="continuous">Sesión continua (múltiples rondas)</option>
-                    </select>
+            <div className={styles.setupForm}>
+                <div className={styles.formGroup}>
+                    <label className="label">SESIÓN</label>
+                    <div className={styles.segmentedControl}>
+                        <button
+                            type="button"
+                            className={`${styles.segmentBtn} ${sessionType === 'single' ? styles.segmentBtnActive : ''}`}
+                            onClick={() => setSessionType('single')}
+                        >
+                            Única
+                        </button>
+                        <button
+                            type="button"
+                            className={`${styles.segmentBtn} ${sessionType === 'continuous' ? styles.segmentBtnActive : ''}`}
+                            onClick={() => setSessionType('continuous')}
+                        >
+                            Continua
+                        </button>
+                    </div>
                 </div>
 
-                <div>
-                    <label className="label">Modo de marcado</label>
-                    <select
-                        id="markingMode"
-                        className={`input select ${styles.select}`}
-                        value={markingMode}
-                        onChange={(e) => setMarkingMode(e.target.value)}
-                    >
-                        <option value="auto">Automático (el servidor marca)</option>
-                        <option value="manual">Manual (el jugador toca)</option>
-                    </select>
+                <div className={styles.formGroup}>
+                    <label className="label">MARCADO</label>
+                    <div className={styles.segmentedControl}>
+                        <button
+                            type="button"
+                            className={`${styles.segmentBtn} ${markingMode === 'auto' ? styles.segmentBtnActive : ''}`}
+                            onClick={() => setMarkingMode('auto')}
+                        >
+                            Automático
+                        </button>
+                        <button
+                            type="button"
+                            className={`${styles.segmentBtn} ${markingMode === 'manual' ? styles.segmentBtnActive : ''}`}
+                            onClick={() => setMarkingMode('manual')}
+                        >
+                            Manual
+                        </button>
+                    </div>
                 </div>
             </div>
 

@@ -125,19 +125,78 @@
 }
 
 /* ── RoomSetup ────────────────────────────────────────────────── */
+.setupForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .formGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
 
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.segmentedControl {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 2px;
+    gap: 2px;
+}
+
+.segmentBtn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    padding: 10px 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: calc(var(--radius-md) - 4px);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.segmentBtn:hover:not(.segmentBtnActive) {
+    color: var(--color-text);
+}
+
+.segmentBtnActive {
+    color: #fff;
+    background: linear-gradient(135deg, var(--color-primary), #8b5cf6);
+    box-shadow: 0 0 15px var(--color-primary-glow), inset 0 0 12px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto de estrellas/brillo sutil en el botón activo */
+.segmentBtnActive::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.5) 0.5px, transparent 0),
+        radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.4) 0.5px, transparent 0),
+        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.5) 0.5px, transparent 0),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.3) 0.5px, transparent 0);
+    background-size: 40px 40px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 .select {
     cursor: pointer;
 }
 
-.roomInfoCard {}
-
-.roomInfoHeader {
+.urlCode {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -199,8 +258,6 @@
     gap: 16px;
 }
 
-.urlItem {}
-
 .urlSmall {
     display: block;
     font-size: 0.75rem;
@@ -213,8 +270,6 @@
 }
 
 /* ── GameControls ─────────────────────────────────────────────── */
-.controlsCard {}
-
 .controlsHeader {
     display: flex;
     align-items: center;
@@ -337,8 +392,6 @@
 
 
 /* ── PlayerList ───────────────────────────────────────────────── */
-.playerListCard {}
-
 .playerListHeader {
     display: flex;
     align-items: center;
@@ -639,8 +692,6 @@
 }
 
 /* ── NicknameEditor ───────────────────────────────────────────── */
-.nicknameCard {}
-
 .nicknameRow {
     display: flex;
     align-items: center;
