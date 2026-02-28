@@ -241,6 +241,51 @@ function registerAdminHandlers(socket) {
         }
     });
 
+    // ── kick_player ────────────────────────────────────────────────────────────
+    socket.on('kick_player', ({ roomId, playerId } = {}) => {
+        try {
+            const room = _getRoom(socket, roomId);
+            if (!room) return;
+
+            if (!playerId) {
+                return broadcaster.emitError(socket.id, {
+                    code: 'MISSING_PARAMS',
+                    message: 'playerId es requerido para expulsar.',
+                });
+            }
+
+            const { session, banned } = room.kickPlayer(playerId);
+            if (!session) {
+                return broadcaster.emitError(socket.id, {
+                    code: 'PLAYER_NOT_FOUND',
+                    message: 'Jugador no encontrado en la sala.',
+                });
+            }
+
+            // Notificar al jugador expulsado
+            if (session.socketId) {
+                broadcaster.emitPlayerKicked(session.socketId, {
+                    reason: 'Fuiste expulsado de la sala por el administrador.',
+                    banned,
+                });
+
+                // Sacar el socket del jugador de la room de Socket.IO
+                const playNS = socket.server.of('/play');
+                const kickedSocket = playNS.sockets.get(session.socketId);
+                if (kickedSocket) {
+                    kickedSocket.leave(room.roomId);
+                    kickedSocket.disconnect(true);
+                }
+            }
+
+            // Actualizar estado para admin y TV
+            broadcaster.emitGameStateUpdate(room.roomId, room.toPublicState());
+            console.log(`[admin] Jugador expulsado: ${session.playerName} (${playerId}) de sala ${room.roomId} ${banned ? '(baneado)' : '(sin ban)'}`);
+        } catch (err) {
+            broadcaster.emitError(socket.id, { code: 'KICK_ERROR', message: err.message });
+        }
+    });
+
     // ── update_nickname ────────────────────────────────────────────────────────
     socket.on('update_nickname', ({ roomId, number, nickname } = {}) => {
         try {

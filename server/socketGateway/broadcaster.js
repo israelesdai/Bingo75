@@ -197,6 +197,17 @@ function emitError(socketId, data) {
     playNS.to(socketId).emit('error', data);
 }
 
+// ─── Eventos de moderación ───────────────────────────────────────────────────
+
+/**
+ * Emite player_kicked al jugador expulsado.
+ * @param {string} socketId
+ * @param {{ reason: string, banned: boolean }} data
+ */
+function emitPlayerKicked(socketId, data) {
+    toPlaySocket(socketId, 'player_kicked', data);
+}
+
 module.exports = {
     init,
     emitRoomCreated,
@@ -211,5 +222,6 @@ module.exports = {
     emitTieBreakResult,
     emitRoundReset,
     emitRoomClosed,
+    emitPlayerKicked,
     emitError,
 };

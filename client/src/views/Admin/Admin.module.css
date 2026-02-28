@@ -3,7 +3,7 @@
 /* ── Layout principal ─────────────────────────────────────────── */
 .adminLayout {
     display: grid;
-    grid-template-columns: 320px 1fr 300px;
+    grid-template-columns: 320px 1fr 360px;
     grid-template-rows: auto 1fr;
     min-height: 100vh;
     gap: 0;
@@ -13,7 +13,7 @@
 
 @media (max-width: 1200px) {
     .adminLayout {
-        grid-template-columns: 280px 1fr 260px;
+        grid-template-columns: 280px 1fr 320px;
     }
 }
 
@@ -514,6 +514,35 @@
     color: var(--color-text-muted);
 }
 
+/* Botón de expulsión */
+.kickBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 82, 82, 0.25);
+    background: rgba(255, 82, 82, 0.08);
+    font-size: 0.85rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    opacity: 0.5;
+}
+
+.kickBtn:hover {
+    opacity: 1;
+    background: rgba(255, 82, 82, 0.2);
+    border-color: rgba(255, 82, 82, 0.5);
+    box-shadow: 0 0 12px rgba(255, 82, 82, 0.3);
+    transform: scale(1.1);
+}
+
+.kickBtn:active {
+    transform: scale(0.95);
+}
+
 /* Barra de progreso */
 .progressBar {
     width: 100%;
@@ -739,4 +768,52 @@
 .winnerName {
     font-size: 1.1rem;
     color: var(--color-text);
+}
+
+/* ── Confirmation Modal ──────────────────────────────────────── */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: fadeIn 0.2s ease;
+}
+
+.modalCard {
+    background: rgba(20, 20, 50, 0.95);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    max-width: 420px;
+    width: 90%;
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(108, 99, 255, 0.1);
+    text-align: center;
+}
+
+.modalTitle {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.modalMessage {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.modalActions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
 }

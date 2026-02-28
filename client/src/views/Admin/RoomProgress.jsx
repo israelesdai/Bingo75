@@ -15,11 +15,13 @@ const GROUPS = [
     { key: 'critical', label: '20–23 marcados', min: 20, max: 23, color: 'var(--rp-red)', icon: '🔴' },
 ];
 
-// Hitos por progreso: se activan cuando el grupo llega a 0 jugadores
-const ZERO_MILESTONES = [
-    { key: 'low', text: '✅ Ya todos superaron 4 marcados' },
-    { key: 'midLow', text: '✅ Ya todos superaron 9 marcados' },
-    { key: 'mid', text: '✅ Ya todos superaron 14 marcados' },
+// Hitos positivos: se activan cuando al menos un jugador alcanza el rango
+// Se evalúan de mayor a menor, se muestra solo el más alto alcanzado
+const REACH_MILESTONES = [
+    { key: 'critical', threshold: 20, text: '🔥 Ya hay jugadores con 20 números' },
+    { key: 'high', threshold: 15, text: '🟠 Ya hay jugadores con 15 números' },
+    { key: 'mid', threshold: 10, text: '🟢 Ya hay jugadores con 10 números' },
+    { key: 'midLow', threshold: 5, text: '🟣 Ya hay jugadores con 5 números' },
 ];
 
 export default function RoomProgress({ players = [], gameState }) {
@@ -40,16 +42,9 @@ export default function RoomProgress({ players = [], gameState }) {
         }).length;
     });
 
-    // Hito de alerta: hay jugadores con 20+ marcados (más urgente, tiene prioridad)
-    const criticalAlert = counts.critical > 0
-        ? { text: '🔥 Ya hay jugadores con 20 marcados' }
-        : null;
-
-    // Hito de avance: el más reciente grupo en llegar a 0 (de mayor a menor para obtener el último)
-    const progressMilestone = [...ZERO_MILESTONES].reverse().find(m => counts[m.key] === 0) || null;
-
-    // Prioridad: alerta crítica > hito de avance
-    const milestone = criticalAlert || progressMilestone;
+    // Buscar el mayor hito de marcado alcanzado por algún jugador
+    const maxEffective = Math.max(...players.map(p => Math.max(0, (p.markedCount ?? 0) - 1)));
+    const milestone = REACH_MILESTONES.find(m => maxEffective >= m.threshold) || null;
 
     return (
         <div className={styles.card}>

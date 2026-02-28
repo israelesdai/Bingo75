@@ -47,6 +47,14 @@ function registerPlayerHandlers(socket) {
                 });
             }
 
+            // Verificar si el jugador está baneado
+            if (room.bannedPlayers.has(playerId)) {
+                return broadcaster.emitError(socket.id, {
+                    code: 'PLAYER_BANNED',
+                    message: 'Has sido expulsado de esta sala.',
+                });
+            }
+
             const { session, isNew, error } = room.addOrReconnectPlayer(playerId, socket.id, playerName);
 
             if (error) {
@@ -108,7 +116,8 @@ function registerPlayerHandlers(socket) {
 
             const { session, error } = room.addOrReconnectPlayer(playerId, socket.id, playerName);
             if (error) {
-                return broadcaster.emitError(socket.id, { code: 'RECONNECT_ERROR', message: error });
+                const code = room.bannedPlayers.has(playerId) ? 'PLAYER_BANNED' : 'RECONNECT_ERROR';
+                return broadcaster.emitError(socket.id, { code, message: error });
             }
 
             socket.join(roomId);

@@ -10,7 +10,7 @@ import styles from './Admin.module.css';
 
 const MAX_CELLS = 24; // 24 casillas marcables (excluye FREE)
 
-export default function PlayerList({ players, gameState }) {
+export default function PlayerList({ players, gameState, onKickPlayer }) {
     if (!players || players.length === 0) {
         return (
             <div className={`card-glass ${styles.playerListCard}`}>
@@ -52,10 +52,8 @@ export default function PlayerList({ players, gameState }) {
             <ul className={styles.playerList}>
                 {sorted.map((player, i) => {
                     const markedRaw = player.markedCount ?? 0;
-                    // La casilla FREE arranca marcada (cuenta como 1), la descontamos para mostrar 0/24 al inicio
                     const marked = Math.max(0, markedRaw - 1);
                     const pct = Math.round((marked / MAX_CELLS) * 100);
-                    // Color de la barra según progreso
                     const barColor = pct >= 80
                         ? 'var(--color-danger)'
                         : pct >= 55
@@ -67,19 +65,16 @@ export default function PlayerList({ players, gameState }) {
                             key={player.playerId}
                             className={`${styles.playerItem} ${!player.isConnected ? styles.playerDisconnected : ''}`}
                         >
-                            {/* Posición (solo durante juego) */}
                             {isPlaying && (
                                 <span className={styles.playerRank}>
                                     {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`}
                                 </span>
                             )}
 
-                            {/* Avatar */}
                             <div className={styles.playerAvatar}>
                                 {player.playerName.charAt(0).toUpperCase()}
                             </div>
 
-                            {/* Info + barra */}
                             <div className={styles.playerInfo} style={{ flex: 1, minWidth: 0 }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                                     <span className={styles.playerName}>{player.playerName}</span>
@@ -90,7 +85,6 @@ export default function PlayerList({ players, gameState }) {
                                     )}
                                 </div>
 
-                                {/* Barra de progreso */}
                                 {isPlaying && (
                                     <div className={styles.progressBar}>
                                         <div
@@ -106,6 +100,17 @@ export default function PlayerList({ players, gameState }) {
                                     </span>
                                 )}
                             </div>
+
+                            {/* Botón de expulsión */}
+                            {onKickPlayer && (
+                                <button
+                                    className={styles.kickBtn}
+                                    title={`Expulsar a ${player.playerName}`}
+                                    onClick={() => onKickPlayer(player.playerId, player.playerName)}
+                                >
+                                    🚫
+                                </button>
+                            )}
                         </li>
                     );
                 })}

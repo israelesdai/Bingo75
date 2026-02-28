@@ -41,6 +41,10 @@ export default function AdminView() {
     // Estado para modal de confirmación
     const [showCloseModal, setShowCloseModal] = useState(false);
 
+    // Estado para modal de expulsión
+    const [showKickModal, setShowKickModal] = useState(false);
+    const [kickTarget, setKickTarget] = useState(null); // { playerId, playerName }
+
     // Mantener roomIdRef actualizado
     useEffect(() => { roomIdRef.current = roomId; }, [roomId]);
 
@@ -210,6 +214,19 @@ export default function AdminView() {
         adminSocket.emit('toggle_speech', { roomId, enabled: !speechEnabled });
     }, [roomId, speechEnabled]);
 
+    const handleKickPlayer = useCallback((playerId, playerName) => {
+        setKickTarget({ playerId, playerName });
+        setShowKickModal(true);
+    }, []);
+
+    const confirmKickPlayer = useCallback(() => {
+        if (kickTarget) {
+            adminSocket.emit('kick_player', { roomId, playerId: kickTarget.playerId });
+        }
+        setShowKickModal(false);
+        setKickTarget(null);
+    }, [roomId, kickTarget]);
+
     // ── Render ────────────────────────────────────────────────────────────────
     const remaining = currentBall?.remaining ?? null;
 
@@ -307,7 +324,7 @@ export default function AdminView() {
 
             {/* Sidebar Derecho (Jugadores) */}
             <aside className={styles.rightSidebar}>
-                <PlayerList players={players} gameState={gameState} />
+                <PlayerList players={players} gameState={gameState} onKickPlayer={handleKickPlayer} />
             </aside>
 
             {/* Modal de confirmación */}
@@ -317,6 +334,14 @@ export default function AdminView() {
                 message="Esta acción no se puede deshacer. Todos los jugadores serán desconectados."
                 onConfirm={confirmCloseRoom}
                 onCancel={() => setShowCloseModal(false)}
+            />
+
+            <ConfirmationModal
+                isOpen={showKickModal}
+                title="¿Expulsar jugador?"
+                message={kickTarget ? `¿Expulsar a "${kickTarget.playerName}"? El jugador será desconectado de la sala.` : ''}
+                onConfirm={confirmKickPlayer}
+                onCancel={() => { setShowKickModal(false); setKickTarget(null); }}
             />
         </div>
     );

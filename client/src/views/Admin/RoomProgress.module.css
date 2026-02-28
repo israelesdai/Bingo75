@@ -10,8 +10,7 @@
 
     width: 100%;
     /* ocupa el 100% de su celda en el grid */
-    align-self: flex-start;
-    /* no estira verticalmente */
+    align-self: stretch;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;

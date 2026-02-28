@@ -49,6 +49,9 @@ class Room {
         this.tiedPlayers = [];          // [{ playerId, playerName }]
         this.tieWinner = null;        // { playerId, playerName }
 
+        // Jugadores expulsados (baneados durante el juego)
+        this.bannedPlayers = new Set();
+
         // Configuración
         this.speechEnabled = false;
         this.maxPlayers = MAX_PLAYERS;
@@ -70,6 +73,11 @@ class Room {
      * @returns {{ session: PlayerSession, isNew: boolean, error?: string }}
      */
     addOrReconnectPlayer(playerId, socketId, playerName) {
+        // Verificar si el jugador está baneado
+        if (this.bannedPlayers.has(playerId)) {
+            return { session: null, isNew: false, error: 'Has sido expulsado de esta sala.' };
+        }
+
         // Reconexión: el jugador ya tiene sesión
         if (this.players.has(playerId)) {
             const session = this.players.get(playerId);
@@ -91,6 +99,32 @@ class Room {
         this.players.set(playerId, session);
 
         return { session, isNew: true };
+    }
+
+    /**
+     * Expulsa un jugador de la sala.
+     * Si el juego ya inició (no está en LOBBY), lo banea permanentemente.
+     * @param {string} playerId
+     * @returns {{ session: PlayerSession|null, banned: boolean }}
+     */
+    kickPlayer(playerId) {
+        const session = this.players.get(playerId);
+        if (!session) return { session: null, banned: false };
+
+        const banned = this.state !== engine.GAME_STATES.LOBBY;
+        if (banned) {
+            this.bannedPlayers.add(playerId);
+        }
+
+        // Liberar el hash del cartón
+        if (session.cardHash) {
+            this.usedCardHashes.delete(session.cardHash);
+        }
+
+        // Eliminar la sesión
+        this.players.delete(playerId);
+
+        return { session, banned };
     }
 
     /**
