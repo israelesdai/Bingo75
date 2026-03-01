@@ -75,7 +75,7 @@ export default function BingoCard({ card, markingMode, drawnNumbers = [], onMark
                                 aria-label={isFree ? 'Centro libre' : `${cell.column}-${cell.number}${isMarked ? ' (marcado)' : ''}`}
                             >
                                 {isFree ? (
-                                    <span className={styles.freeCell}>★</span>
+                                    <span className={styles.freeCell}>FREE</span>
                                 ) : (
                                     <>
                                         <span className={styles.cellNumber}>{cell.number}</span>
