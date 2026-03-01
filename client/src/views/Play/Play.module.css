@@ -205,7 +205,7 @@
     gap: 6px;
 }
 
-/* ── Celda base: bola 3D ─────────────────────────────────────── */
+/* ── Celda base: bola apagada (no marcada) ───────────────────── */
 .cardCell {
     aspect-ratio: 1;
     display: flex;
@@ -217,25 +217,25 @@
     user-select: none;
     touch-action: manipulation;
     cursor: default;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, filter 0.25s ease;
 
     /* Forma circular */
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.25);
 
-    /* Gradiente 3D: oscuro abajo, claro arriba */
+    /* Apagada: fondo oscuro con un tinte sutil del color de columna */
     background:
-        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.2), transparent 50%),
-        radial-gradient(circle at 50% 50%, var(--cell-color), transparent 70%),
-        radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.6), transparent 60%),
-        var(--cell-color);
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.08), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(30, 30, 60, 0.9), transparent 80%),
+        rgba(20, 20, 45, 0.95);
     box-shadow:
-        inset 0 -4px 8px rgba(0, 0, 0, 0.5),
-        inset 0 4px 8px rgba(255, 255, 255, 0.15),
-        0 2px 8px rgba(0, 0, 0, 0.4);
+        inset 0 -3px 6px rgba(0, 0, 0, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.05),
+        0 1px 4px rgba(0, 0, 0, 0.3);
+    filter: saturate(0.3) brightness(0.6);
 }
 
-/* Brillo/reflejo superior - efecto glossy */
+/* Brillo/reflejo superior - efecto glossy (visible solo en marcadas) */
 .cardCell::before {
     content: '';
     position: absolute;
@@ -250,6 +250,8 @@
             transparent 100%);
     pointer-events: none;
     z-index: 3;
+    opacity: 0.15;
+    transition: opacity 0.25s ease;
 }
 
 .cellNumber {
@@ -258,30 +260,35 @@
     font-weight: 900;
     line-height: 1;
     color: #fff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
     z-index: 2;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
-/* ── Estado: Marcado ─────────────────────────────────────────── */
+/* ── Estado: Marcado (bola encendida con color 3D) ───────────── */
 .cardCellMarked {
-    transform: scale(0.93);
-    border-color: rgba(255, 255, 255, 0.35);
+    transform: scale(0.95);
+    border-color: rgba(255, 255, 255, 0.25);
+    filter: saturate(1.3) brightness(1.1);
     background:
-        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.35), transparent 50%),
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.25), transparent 50%),
         radial-gradient(circle at 50% 50%, var(--cell-color), transparent 70%),
-        radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.4), transparent 60%),
+        radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.5), transparent 60%),
         var(--cell-color);
     box-shadow:
-        inset 0 -4px 8px rgba(0, 0, 0, 0.3),
-        inset 0 4px 8px rgba(255, 255, 255, 0.3),
-        0 0 20px var(--cell-color),
-        0 0 40px rgba(0, 0, 0, 0.2);
-    filter: saturate(1.3) brightness(1.15);
+        inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 4px 8px rgba(255, 255, 255, 0.2),
+        0 0 15px var(--cell-color),
+        0 0 30px rgba(0, 0, 0, 0.15);
+}
+
+.cardCellMarked::before {
+    opacity: 1;
 }
 
 .cardCellMarked .cellNumber {
     color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* ── Estado: Último marcado (brillo pulsante) ────────────────── */
