@@ -451,6 +451,15 @@
     transform: translateY(0) scale(0.98);
 }
 
+.nameWarning {
+    font-size: 0.75rem;
+    color: rgba(255, 193, 7, 0.7);
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 8px;
+    padding: 0 8px;
+}
+
 /* ── Pantalla de expulsión ────────────────────────────────────── */
 .kickedScreen {
     display: flex;

@@ -61,6 +61,10 @@ export default function NameEntry({ onJoin, roomId, isConnecting }) {
                         '🎮 ¡Unirse al juego!'
                     )}
                 </button>
+
+                <p className={styles.nameWarning}>
+                    Juego familiar: elige un nombre apropiado y mantén un buen ambiente. Quien no respete las reglas será expulsado.
+                </p>
             </div>
         </div>
     );
