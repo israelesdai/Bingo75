@@ -1,0 +1,423 @@
+/* Welcome.module.css — Portada inmersiva Bingo 75
+   Estilo gaming premium con bolas 3D, tómbola y efectos de brillo */
+
+/* ── Layout principal ─────────────────────────────────────────── */
+.welcomeLayout {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Fondo degradado azul oscuro → púrpura */
+    background:
+        radial-gradient(ellipse at 50% 40%, rgba(60, 40, 140, 0.35) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(30, 60, 160, 0.20) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(120, 40, 140, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, #080820 0%, #0c0c30 40%, #12082a 70%, #0a0618 100%);
+}
+
+/* ── Estrellas / partículas de fondo ──────────────────────────── */
+.starsContainer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: var(--star-size);
+    height: var(--star-size);
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--star-duration) ease-in-out var(--star-delay) infinite;
+    opacity: 0;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+/* ── Formas geométricas decorativas ───────────────────────────── */
+.geoShape1 {
+    position: absolute;
+    top: -5%;
+    right: -8%;
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, rgba(120, 40, 160, 0.15), transparent 60%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    z-index: 0;
+    animation: geoRotate 20s linear infinite;
+}
+
+.geoShape2 {
+    position: absolute;
+    bottom: -10%;
+    left: -5%;
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(135deg, rgba(40, 60, 180, 0.12), transparent 60%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    z-index: 0;
+    animation: geoRotate 25s linear infinite reverse;
+}
+
+@keyframes geoRotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ── Contenedor de bolas ──────────────────────────────────────── */
+.ballsContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ── Bola de bingo 3D ─────────────────────────────────────────── */
+.ball {
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ballFloat 4s ease-in-out infinite;
+
+    /* Gradiente 3D esférico */
+    background:
+        radial-gradient(circle at 35% 25%, var(--ball-light) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, var(--ball-main) 0%, var(--ball-dark) 100%);
+    box-shadow:
+        inset 0 -6px 12px rgba(0, 0, 0, 0.4),
+        inset 0 4px 8px rgba(255, 255, 255, 0.15),
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes ballFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(3deg);
+    }
+}
+
+/* Franja blanca central de la bola */
+.ballStripe {
+    width: 70%;
+    height: 40%;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.ballNumber {
+    font-family: var(--font-display, 'Arial Black', sans-serif);
+    font-weight: 900;
+    font-size: 1em;
+    color: #1a1a2e;
+    line-height: 1;
+    /* Escalar relativo al tamaño de la bola */
+    font-size: clamp(12px, 1.5vw, 18px);
+}
+
+/* ── Tómbola / Cage central ───────────────────────────────────── */
+.cageContainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -45%);
+    width: min(340px, 60vw);
+    height: min(340px, 60vw);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Globe esférico con transparencia */
+.cageGlobe {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    border: 2px solid rgba(100, 120, 255, 0.15);
+    background:
+        radial-gradient(circle at 40% 30%, rgba(100, 140, 255, 0.08), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(60, 40, 150, 0.06), transparent 70%);
+    box-shadow:
+        0 0 40px rgba(100, 100, 255, 0.08),
+        inset 0 0 30px rgba(100, 120, 255, 0.06);
+}
+
+/* Anillo orbital 1 */
+.cageRing1 {
+    position: absolute;
+    inset: 5%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: rgba(140, 100, 255, 0.6);
+    border-bottom-color: rgba(140, 100, 255, 0.3);
+    animation: ringOrbit1 6s linear infinite;
+    box-shadow: 0 0 20px rgba(140, 100, 255, 0.2);
+    filter: blur(0.5px);
+}
+
+@keyframes ringOrbit1 {
+    to {
+        transform: rotateX(70deg) rotateZ(360deg);
+    }
+}
+
+/* Anillo orbital 2 */
+.cageRing2 {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-left-color: rgba(0, 180, 255, 0.5);
+    border-right-color: rgba(0, 180, 255, 0.2);
+    animation: ringOrbit2 8s linear infinite;
+    box-shadow: 0 0 25px rgba(0, 180, 255, 0.15);
+    filter: blur(0.5px);
+}
+
+@keyframes ringOrbit2 {
+    to {
+        transform: rotateY(75deg) rotateZ(-360deg);
+    }
+}
+
+/* ── Contenido superpuesto ────────────────────────────────────── */
+.content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    width: 100%;
+    padding: 40px 24px;
+}
+
+/* ── Título principal ─────────────────────────────────────────── */
+.title {
+    font-family: var(--font-display, 'Arial Black', sans-serif);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+
+    /* Degradado azul → rosa/púrpura */
+    background: linear-gradient(180deg,
+            #7eb8ff 0%,
+            #a78bfa 30%,
+            #c084fc 50%,
+            #e879a8 80%,
+            #f0abcf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    /* Glow */
+    filter: drop-shadow(0 0 30px rgba(140, 100, 255, 0.4)) drop-shadow(0 0 60px rgba(100, 80, 200, 0.2));
+
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 30px rgba(140, 100, 255, 0.4)) drop-shadow(0 0 60px rgba(100, 80, 200, 0.2));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 40px rgba(140, 100, 255, 0.6)) drop-shadow(0 0 80px rgba(100, 80, 200, 0.3));
+    }
+}
+
+/* Espacio para la tómbola visual */
+.cageSpacer {
+    height: min(280px, 48vw);
+}
+
+/* ── CTA Button ───────────────────────────────────────────────── */
+.ctaButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 48px;
+    border: 2px solid rgba(160, 140, 255, 0.4);
+    border-radius: 50px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    /* Fondo semi-transparente con blur */
+    background: rgba(40, 30, 80, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* Texto */
+    color: #e8e0ff;
+    font-family: var(--font-display, 'Arial Black', sans-serif);
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+
+    /* Glow */
+    box-shadow:
+        0 0 20px rgba(120, 80, 255, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    animation: btnGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes btnGlow {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 20px rgba(120, 80, 255, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    50% {
+        box-shadow:
+            0 0 30px rgba(120, 80, 255, 0.4),
+            0 0 60px rgba(120, 80, 255, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Shimmer */
+.ctaButton::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg,
+            transparent 35%,
+            rgba(255, 255, 255, 0.08) 42%,
+            rgba(255, 255, 255, 0.12) 50%,
+            rgba(255, 255, 255, 0.08) 58%,
+            transparent 65%);
+    background-size: 300% 100%;
+    animation: shimmerBtn 5s ease-in-out infinite;
+    border-radius: inherit;
+}
+
+@keyframes shimmerBtn {
+    0% {
+        background-position: 250% center;
+    }
+
+    100% {
+        background-position: -250% center;
+    }
+}
+
+.ctaButton:hover {
+    transform: translateY(-3px) scale(1.03);
+    border-color: rgba(160, 140, 255, 0.7);
+    box-shadow:
+        0 0 35px rgba(120, 80, 255, 0.5),
+        0 0 70px rgba(120, 80, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.ctaButton:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.playIcon {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.ctaButton span {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .ball {
+        transform: scale(0.7);
+    }
+
+    .cageSpacer {
+        height: 200px;
+    }
+
+    .ctaButton {
+        padding: 16px 36px;
+        font-size: 1rem;
+    }
+
+    .cageContainer {
+        width: 250px;
+        height: 250px;
+    }
+
+    .geoShape1,
+    .geoShape2 {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .ball {
+        transform: scale(0.55);
+    }
+
+    .cageSpacer {
+        height: 160px;
+    }
+
+    .cageContainer {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .cageContainer {
+        width: 400px;
+        height: 400px;
+    }
+
+    .cageSpacer {
+        height: 340px;
+    }
+
+    .ball {
+        transform: scale(1.1);
+    }
+}
