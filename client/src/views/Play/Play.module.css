@@ -1,0 +1,901 @@
+/* Play.module.css — Mobile First estricto */
+
+/* ── Layout principal ─────────────────────────────────────────── */
+/* ✅ FIX: el layout ahora es “marco” full width y centra el contenido */
+.playLayout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    width: 100%;
+
+    /* centra header + contenido en pantallas grandes */
+    align-items: center;
+
+    /* padding lateral + safe area inferior */
+    padding: 0 16px env(safe-area-inset-bottom, 16px);
+    box-sizing: border-box;
+
+    position: relative;
+}
+
+/* ✅ NUEVO: contenedor del contenido (se usa en PlayView.jsx) */
+.playContent {
+    width: 100%;
+    max-width: 600px;
+    /* evita full width en PC */
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 16px 0 24px;
+    box-sizing: border-box;
+}
+
+/* ── Header del jugador ───────────────────────────────────────── */
+/* ✅ FIX: el header también respeta el ancho máximo */
+.playHeader {
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.headerLeft {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.headerCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.headerRight {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.playLogo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--color-text);
+    /* Gradient text */
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.playerNameTag {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+
+/* ── Recent Numbers (Last 5) ──────────────────────────────────── */
+.recentContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 0;
+    min-height: 80px;
+}
+
+.recentBall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    /* Bolitas redondas */
+    border: 2px solid var(--ball-color);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    box-shadow: 0 0 5px var(--ball-color);
+    transition: all 0.3s ease;
+}
+
+.recentBallCurrent {
+    width: 64px;
+    height: 64px;
+    background: var(--ball-color);
+    box-shadow: 0 0 20px var(--ball-color);
+    transform: scale(1.1);
+    color: #000;
+    /* Contraste vs fondo brillante */
+    z-index: 2;
+}
+
+.recentBallCurrent .recentCol,
+.recentBallCurrent .recentNum {
+    color: #000;
+    text-shadow: none;
+}
+
+.recentCol {
+    font-size: 0.7rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--ball-color);
+    text-shadow: 0 0 4px var(--ball-color);
+}
+
+.recentNum {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 800;
+    color: #fff;
+}
+
+.recentBallCurrent .recentNum {
+    font-size: 1.6rem;
+}
+
+.lastNumberEmpty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-border);
+}
+
+.lastNumberWaiting {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+/* ── Cartón: wrapper ─────────────────────────────────────────── */
+.cardWrapper {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+    padding: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+}
+
+.cardHeader {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-bottom: 6px;
+}
+
+.cardColHeader {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--col-color);
+    text-shadow: 0 0 15px var(--col-color);
+    padding-bottom: 6px;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+/* ── Celda base: bola apagada (no marcada) ───────────────────── */
+.cardCell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    touch-action: manipulation;
+    cursor: default;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, filter 0.25s ease;
+
+    /* Forma circular */
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+
+    /* Apagada: fondo oscuro con un tinte sutil del color de columna */
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.08), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(30, 30, 60, 0.9), transparent 80%),
+        rgba(20, 20, 45, 0.95);
+    box-shadow:
+        inset 0 -3px 6px rgba(0, 0, 0, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.05),
+        0 1px 4px rgba(0, 0, 0, 0.3);
+    filter: saturate(0.3) brightness(0.6);
+}
+
+/* Brillo/reflejo superior - efecto glossy (visible solo en marcadas) */
+.cardCell::before {
+    content: '';
+    position: absolute;
+    top: 8%;
+    left: 18%;
+    width: 45%;
+    height: 35%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.15) 50%,
+            transparent 100%);
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.15;
+    transition: opacity 0.25s ease;
+}
+
+.cellNumber {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+/* ── Estado: Marcado (bola encendida con color 3D) ───────────── */
+.cardCellMarked {
+    transform: scale(0.95);
+    border-color: rgba(255, 255, 255, 0.25);
+    filter: saturate(1.3) brightness(1.1);
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.25), transparent 50%),
+        radial-gradient(circle at 50% 50%, var(--cell-color), transparent 70%),
+        radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.5), transparent 60%),
+        var(--cell-color);
+    box-shadow:
+        inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 4px 8px rgba(255, 255, 255, 0.2),
+        0 0 15px var(--cell-color),
+        0 0 30px rgba(0, 0, 0, 0.15);
+}
+
+.cardCellMarked::before {
+    opacity: 1;
+}
+
+.cardCellMarked .cellNumber {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Estado: Último marcado (brillo pulsante) ────────────────── */
+.cardCellLast {
+    animation: pulseCell 1.5s infinite;
+    z-index: 10;
+}
+
+@keyframes pulseCell {
+    0% {
+        box-shadow:
+            inset 0 -4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 4px 8px rgba(255, 255, 255, 0.3),
+            0 0 20px var(--cell-color);
+        transform: scale(0.93);
+    }
+
+    50% {
+        box-shadow:
+            inset 0 -4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 4px 8px rgba(255, 255, 255, 0.4),
+            0 0 30px var(--cell-color),
+            0 0 50px rgba(0, 0, 0, 0.15);
+        transform: scale(0.97);
+    }
+
+    100% {
+        box-shadow:
+            inset 0 -4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 4px 8px rgba(255, 255, 255, 0.3),
+            0 0 20px var(--cell-color);
+        transform: scale(0.93);
+    }
+}
+
+/* ── Estado: Mode Manual - sugerencia ────────────────────────── */
+.cardCellCanMark {
+    cursor: pointer;
+    animation: hintPulse 2s infinite;
+}
+
+@keyframes hintPulse {
+    0% {
+        box-shadow:
+            inset 0 -4px 8px rgba(0, 0, 0, 0.5),
+            inset 0 4px 8px rgba(255, 255, 255, 0.15),
+            0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow:
+            inset 0 -4px 8px rgba(0, 0, 0, 0.5),
+            inset 0 4px 8px rgba(255, 255, 255, 0.15),
+            0 0 20px var(--cell-color);
+    }
+
+    100% {
+        box-shadow:
+            inset 0 -4px 8px rgba(0, 0, 0, 0.5),
+            inset 0 4px 8px rgba(255, 255, 255, 0.15),
+            0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* ── Centro libre (FREE) ─────────────────────────────────────── */
+.cardCellFree {
+    background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.25), transparent 50%),
+        radial-gradient(circle at 50% 50%, var(--color-primary), transparent 70%),
+        radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.6), transparent 60%),
+        var(--color-primary);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+        inset 0 -4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 4px 8px rgba(255, 255, 255, 0.2),
+        0 0 15px rgba(108, 99, 255, 0.4);
+}
+
+.freeCell {
+    font-size: clamp(0.7rem, 3vw, 0.9rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    z-index: 2;
+    letter-spacing: 0.05em;
+}
+
+/* ── NameEntry (pantalla de ingreso) ──────────────────────────── */
+.nameEntryScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 24px 8px;
+    animation: fadeInEntry 0.5s ease forwards;
+}
+
+@keyframes fadeInEntry {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.nameEntryCard {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 36px 24px 32px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.nameEntryLogo {
+    font-size: 4rem;
+    line-height: 1;
+    animation: logoBounce 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px var(--color-primary-glow));
+}
+
+@keyframes logoBounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-8px) scale(1.05);
+    }
+}
+
+.nameEntryTitle {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.nameEntrySubtitle {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.roomIdBadge {
+    display: inline-block;
+    padding: 2px 10px;
+    margin-left: 4px;
+    background: rgba(108, 99, 255, 0.18);
+    border: 1px solid rgba(108, 99, 255, 0.4);
+    border-radius: var(--radius-full);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--color-primary);
+    letter-spacing: 0.08em;
+}
+
+.nameEntryForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nameInput {
+    font-size: 1rem !important;
+    padding: 14px 16px !important;
+    border-radius: var(--radius-lg) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid var(--color-border-2) !important;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.nameInput:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px var(--color-primary-glow),
+        0 0 20px rgba(108, 99, 255, 0.15) !important;
+}
+
+.nameHint {
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    text-align: center;
+    margin-top: 2px;
+}
+
+.joinBtn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 16px 24px !important;
+    font-size: 1.1rem !important;
+    border-radius: var(--radius-lg) !important;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: all var(--transition-normal);
+}
+
+.joinBtn:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 8px 30px var(--color-primary-glow);
+}
+
+.joinBtn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+}
+
+.nameWarning {
+    font-size: 0.75rem;
+    color: rgba(255, 193, 7, 0.7);
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 8px;
+    padding: 0 8px;
+}
+
+/* ── Pantalla de expulsión ────────────────────────────────────── */
+.kickedScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    animation: fadeInEntry 0.5s ease forwards;
+}
+
+.kickedCard {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 36px 24px;
+    background: rgba(255, 82, 82, 0.06);
+    border: 1px solid rgba(255, 82, 82, 0.25);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.kickedEmoji {
+    font-size: 4rem;
+    line-height: 1;
+}
+
+.kickedTitle {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--color-danger);
+}
+
+.kickedMessage {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* ── Lobby del jugador ────────────────────────────────────────── */
+.playerLobby {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 16px;
+    padding: 32px 16px;
+    text-align: center;
+}
+
+.lobbyCardPreview {
+    opacity: 0.5;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+.lobbyWaitText {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+}
+
+.lobbyWaitDots::after {
+    content: '';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0% {
+        content: '';
+    }
+
+    25% {
+        content: '.';
+    }
+
+    50% {
+        content: '..';
+    }
+
+    75% {
+        content: '...';
+    }
+
+    100% {
+        content: '';
+    }
+}
+
+/* ── Barra de progreso del cartón ─────────────────────────────── */
+.progressBar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.progressLabel {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.progressTrack {
+    height: 6px;
+    background: var(--color-surface-2);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-full);
+    transition: width 0.4s ease;
+}
+
+/* ── GameResult ───────────────────────────────────────────────── */
+.resultScreen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.resultWin {
+    background: radial-gradient(ellipse at center, rgba(0, 230, 118, 0.2) 0%, rgba(10, 10, 26, 0.97) 70%);
+}
+
+.resultLose {
+    background: radial-gradient(ellipse at center, rgba(108, 99, 255, 0.15) 0%, rgba(10, 10, 26, 0.97) 70%);
+}
+
+.resultCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    z-index: 1;
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.resultEmoji {
+    font-size: 5rem;
+    animation: emojiFloat 2s ease-in-out infinite;
+}
+
+@keyframes emojiFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.resultTitle {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--color-success);
+    text-shadow: 0 0 40px rgba(0, 230, 118, 0.5);
+}
+
+.resultTitleLose {
+    color: var(--color-text);
+    text-shadow: none;
+}
+
+.resultSubtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+}
+
+.resultMessage {
+    font-size: 0.9rem;
+    color: var(--color-text-dim);
+}
+
+.resultWaiting {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 20px;
+    background: var(--color-surface-2);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+}
+
+/* Confetti */
+.confettiContainer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confettiPiece {
+    position: absolute;
+    top: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ── DisconnectBanner ─────────────────────────────────────────── */
+.disconnectBanner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 82, 82, 0.9);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 200;
+    backdrop-filter: blur(8px);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* ── Empate overlay ───────────────────────────────────────────── */
+.tieOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    backdrop-filter: blur(6px);
+}
+
+.tieCard {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius-xl);
+    padding: 36px 28px;
+    text-align: center;
+    max-width: 340px;
+    width: 90%;
+    animation: scaleIn 0.4s ease;
+}
+
+.tieEmoji {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.tieTitle {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--color-warning);
+    margin-bottom: 8px;
+}
+
+.tieSubtitle {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+/* ── Modo manual: hint ────────────────────────────────────────── */
+.manualHint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(0, 230, 118, 0.08);
+    border: 1px solid rgba(0, 230, 118, 0.25);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    color: var(--color-success);
+}
+
+/* ── Responsive: pantallas pequeñas ──────────────────────────── */
+@media (max-width: 420px) {
+    .nameEntryCard {
+        padding: 28px 18px 24px;
+        gap: 16px;
+    }
+
+    .nameEntryLogo {
+        font-size: 3rem;
+    }
+
+    .nameEntryTitle {
+        font-size: 1.8rem;
+    }
+
+    .playLayout {
+        padding: 0 12px env(safe-area-inset-bottom, 12px);
+    }
+
+    .playHeader {
+        padding: 10px 12px;
+    }
+
+    .playLogo {
+        font-size: 0.95rem;
+    }
+
+    .playerNameTag {
+        max-width: 90px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .cardColHeader {
+        font-size: 1.1rem;
+    }
+
+    .lastCol {
+        font-size: 1.8rem;
+    }
+
+    .lastNum {
+        font-size: 2.4rem;
+    }
+
+    .nameEntryCard {
+        padding: 24px 14px 20px;
+    }
+
+    .nameEntryTitle {
+        font-size: 1.6rem;
+    }
+}

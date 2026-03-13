@@ -1,0 +1,686 @@
+/* TV.module.css — Estilos de la vista de proyección */
+
+/* ── Layout principal ─────────────────────────────────────────── */
+.tvLayout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    gap: 0;
+    background: var(--color-bg);
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.tvHeader {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.tvLogo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Área izquierda: número actual + board ────────────────────── */
+.tvLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    gap: 32px;
+    border-right: 1px solid var(--color-border);
+}
+
+/* ── Área derecha: estado + stats ─────────────────────────────── */
+.tvRight {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px;
+    gap: 24px;
+    overflow-y: auto;
+}
+
+/* ── CurrentNumber ────────────────────────────────────────────── */
+.currentNumber {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px 48px;
+    border-radius: var(--radius-xl);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border-2);
+    overflow: hidden;
+    min-width: 380px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.currentNumberAnimate {
+    animation: numberPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes numberPop {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.currentNumberEmpty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    min-width: 380px;
+}
+
+.waitingText {
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.currentColumn {
+    font-family: var(--font-display);
+    font-size: 7rem;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 0 40px currentColor;
+}
+
+.currentSeparator {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 300;
+    color: var(--color-text-dim);
+    line-height: 1;
+}
+
+.currentNum {
+    font-family: var(--font-display);
+    font-size: 9rem;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 0 60px currentColor;
+}
+
+.currentNickname {
+    width: 100%;
+    text-align: center;
+    font-size: 1.6rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-weight: 400;
+    margin-top: 8px;
+}
+
+.currentGlow {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* ── BingoBoard ───────────────────────────────────────────────── */
+.bingoBoard {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 700px;
+}
+
+.boardColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.boardColHeader {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 900;
+    padding: 8px 0;
+    border-bottom: 3px solid;
+    margin-bottom: 4px;
+}
+
+.boardCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    color: var(--color-text-dim);
+    transition: all 0.25s ease;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.boardCellDrawn {
+    font-weight: 800;
+    font-size: 1rem;
+}
+
+.boardCellCurrent {
+    animation: cellPulse 1s ease-in-out infinite;
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+@keyframes cellPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+/* ── GameStatus ───────────────────────────────────────────────── */
+.gameStatus {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.statusRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.statusMessage {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+}
+
+.statusStats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.statItem {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 8px;
+    gap: 4px;
+}
+
+.statNum {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statDivider {
+    width: 1px;
+    height: 48px;
+    background: var(--color-border);
+    flex-shrink: 0;
+}
+
+/* Winner banner TV */
+.winnerBannerTV {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.15), rgba(0, 212, 255, 0.1));
+    border: 1px solid rgba(0, 230, 118, 0.4);
+    border-radius: var(--radius-xl);
+}
+
+.winnerEmoji {
+    font-size: 2.5rem;
+}
+
+.winnerLabelTV {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--color-success);
+}
+
+.winnerNameTV {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+/* ── Últimos números sorteados (historial compacto) ───────────── */
+/* ── Historial Cronológico ────────────────────────────────────── */
+.historySection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    /* Ocupar espacio restante */
+    min-height: 0;
+    overflow-y: auto;
+    /* Scroll si hay muchos */
+}
+
+.historyTitle {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    position: sticky;
+    top: 0;
+    background: var(--color-bg);
+    padding-bottom: 8px;
+    z-index: 10;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.historyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 8px;
+    align-content: start;
+}
+
+.historyChip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 4px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border: 1px solid;
+    line-height: 1.1;
+    transition: all 0.3s ease;
+}
+
+.historyChipLast {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px currentColor;
+    z-index: 5;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* ── Lobby screen ─────────────────────────────────────────────── */
+.lobbyScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 32px;
+    text-align: center;
+    padding: 40px;
+}
+
+.lobbyLogo {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+    background-size: 200% auto;
+}
+
+/* Layout de dos columnas en el lobby */
+.lobbyContent {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Bloque QR */
+.qrBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.qrLarge {
+    width: 280px;
+    height: 280px;
+    border-radius: var(--radius-xl);
+    border: 4px solid var(--color-primary);
+    box-shadow: 0 0 60px rgba(108, 99, 255, 0.35);
+    background: #fff;
+    /* fondo blanco para el QR */
+    display: block;
+}
+
+.qrCaption {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.qrPlaceholder {
+    width: 280px;
+    height: 280px;
+    border-radius: var(--radius-xl);
+    border: 2px dashed var(--color-border-2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* Panel info (derecha del QR) */
+.lobbyInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+}
+
+.lobbySubtitle {
+    font-size: 1.4rem;
+    color: var(--color-text-muted);
+}
+
+.lobbyRoomId {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    letter-spacing: 0.2em;
+    padding: 12px 40px;
+    border: 3px solid var(--color-primary);
+    border-radius: var(--radius-xl);
+    background: rgba(108, 99, 255, 0.1);
+    line-height: 1;
+}
+
+.lobbyInstruction {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.lobbyUrl {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.lobbyPlayerList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+    max-width: 420px;
+}
+
+.lobbyPlayerChip {
+    padding: 8px 16px;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius-full);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+
+
+/* ── TieBreakRoulette ─────────────────────────────────────────── */
+.rouletteOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    animation: fadeIn 0.3s ease;
+}
+
+.rouletteCard {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border-2);
+    border-radius: var(--radius-xl);
+    padding: 48px 64px;
+    text-align: center;
+    min-width: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.rouletteTitle {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.rouletteSubtitle {
+    color: var(--color-text-muted);
+    margin-bottom: 40px;
+}
+
+.rouletteSpinner {
+    position: relative;
+    height: 120px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.rouletteTrack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.1s ease;
+}
+
+.rouletteSlot {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 24px;
+    border-radius: var(--radius-lg);
+    border: 2px solid transparent;
+    transition: all 0.1s ease;
+    opacity: 0.3;
+    transform: scale(0.85);
+    min-width: 280px;
+    justify-content: center;
+}
+
+.rouletteSlotActive {
+    opacity: 1;
+    transform: scale(1.05);
+    border-color: var(--color-primary);
+    background: rgba(108, 99, 255, 0.15);
+    box-shadow: 0 0 30px var(--color-primary-glow);
+}
+
+.rouletteAvatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.roulettePlayerName {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.roulettePointer {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin: 8px 0;
+    animation: pointerBounce 0.5s ease-in-out infinite;
+}
+
+@keyframes pointerBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.rouletteWaiting {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: 16px;
+}
+
+/* Revelación del ganador */
+.rouletteWinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+}
+
+.rouletteWinnerGlow {
+    position: absolute;
+    inset: -40px;
+    background: radial-gradient(circle, rgba(0, 230, 118, 0.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.rouletteWinnerEmoji {
+    font-size: 4rem;
+}
+
+.rouletteWinnerTitle {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--color-success);
+}
+
+.rouletteWinnerAvatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-success), var(--color-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 2.5rem;
+    box-shadow: 0 0 40px rgba(0, 230, 118, 0.4);
+}
+
+.rouletteWinnerName {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.rouletteWinnerSub {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+}
+
+/* ── Conexión perdida ─────────────────────────────────────────── */
+.disconnectedBanner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 12px;
+    background: var(--color-danger);
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 300;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
