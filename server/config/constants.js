@@ -52,7 +52,8 @@ const MAX_PLAYERS = parseInt(process.env.MAX_PLAYERS || '20', 10);
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
 /** Puerto del cliente React (5173 en dev, igual al PORT en producción) */
-const CLIENT_PORT = parseInt(process.env.CLIENT_PORT || process.env.PORT || '3000', 10);
+const IS_DEV = process.env.NODE_ENV !== 'production';
+const CLIENT_PORT = parseInt(process.env.CLIENT_PORT || (IS_DEV ? '5173' : PORT), 10);
 
 /** Tipos de sesión */
 const SESSION_TYPES = {

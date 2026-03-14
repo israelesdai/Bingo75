@@ -18,17 +18,30 @@ export default function DrawnNumbers({ drawnNumbers = [], currentBall }) {
                 <span className="text-muted text-sm">{drawnNumbers.length} / 75</span>
             </div>
 
-            {/* Número actual destacado */}
-            {currentBall && (
-                <div className={`${styles.currentBallMini} animate-scale-in`}>
-                    <span
-                        className={styles.currentBallLetter}
-                        style={{ color: `var(--color-${currentBall.column})` }}
-                    >
-                        {currentBall.column}
-                    </span>
-                    <span className={styles.currentBallNum}>{currentBall.number}</span>
-                    <span className={styles.currentBallNick}>{currentBall.nickname}</span>
+            {/* Últimos 5 números sorteados */}
+            {drawnNumbers.length > 0 ? (
+                <div className={`${styles.recentBallsRow} animate-scale-in`}>
+                    {[...drawnNumbers].reverse().slice(0, 5).map((num, index) => {
+                        const col = num <= 15 ? 'B' : num <= 30 ? 'I' : num <= 45 ? 'N' : num <= 60 ? 'G' : 'O';
+                        const isCurrent = index === 0;
+                        return (
+                            <div
+                                key={`${col}-${num}`}
+                                className={`${styles.recentBall} ${isCurrent ? styles.recentBallCurrent : ''}`}
+                                style={{
+                                    '--ball-color': `var(--color-${col})`,
+                                    opacity: isCurrent ? 1 : 0.6 - (index * 0.08)
+                                }}
+                            >
+                                <span className={styles.recentCol}>{col}</span>
+                                <span className={styles.recentNum}>{num}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+            ) : (
+                <div className={styles.recentBallsEmpty}>
+                    <span className={styles.recentBallsWaiting}>Esperando primer número...</span>
                 </div>
             )}
 

@@ -78,11 +78,7 @@ export default function TVView() {
             setDrawnNumbers(data.drawnNumbers);
         });
 
-        tvSocket.on('nickname_updated', (data) => {
-            setCurrentBall(prev =>
-                prev?.number === data.number ? { ...prev, nickname: data.nickname } : prev
-            );
-        });
+
 
         tvSocket.on('tie_break_start', (data) => {
             setTiedPlayers(data.tiedPlayers);
@@ -130,7 +126,7 @@ export default function TVView() {
             tvSocket.off('disconnect');
             tvSocket.off('game_state_update');
             tvSocket.off('number_drawn');
-            tvSocket.off('nickname_updated');
+
             tvSocket.off('tie_break_start');
             tvSocket.off('tie_break_result');
             tvSocket.off('round_reset');
@@ -206,7 +202,7 @@ export default function TVView() {
                         <div className={styles.lobbyRoomId}>{roomId}</div>
 
                         {joinUrl && (
-                            <p className={styles.lobbyUrl}>{joinUrl}</p>
+                            <a href={joinUrl} target="_blank" rel="noopener noreferrer" className={styles.lobbyUrl}>{joinUrl}</a>
                         )}
 
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '24px' }}>

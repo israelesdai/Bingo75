@@ -45,8 +45,7 @@ export default function CurrentNumber({ currentBall }) {
                 {currentBall.number}
             </span>
 
-            {/* Apodo */}
-            <p className={styles.currentNickname}>{currentBall.nickname}</p>
+
 
             {/* Glow de fondo */}
             <div

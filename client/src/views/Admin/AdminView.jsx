@@ -14,7 +14,7 @@ import RoomSetup from './RoomSetup';
 import GameControls from './GameControls';
 import PlayerList from './PlayerList';
 import DrawnNumbers from './DrawnNumbers';
-import NicknameEditor from './NicknameEditor';
+
 import ConfirmationModal from '@/components/ConfirmationModal';
 import RoomProgress from './RoomProgress';
 import SupportCard from './SupportCard';
@@ -27,7 +27,7 @@ export default function AdminView() {
         roomId, roomInfo, gameState, drawnNumbers, currentBall,
         players, winner, tiedPlayers, speechEnabled, isConnected, coincidencias,
         setRoomCreated, setGameStateUpdate, setNumberDrawn,
-        setNicknameUpdated, setTiedPlayers, setTieWinner,
+        setTiedPlayers, setTieWinner,
         setConnected, setConnecting, reset,
     } = useGameStore();
 
@@ -128,7 +128,7 @@ export default function AdminView() {
         adminSocket.on('room_created', (data) => setRoomCreated(data));
         adminSocket.on('game_state_update', (data) => setGameStateUpdate(data));
         adminSocket.on('number_drawn', (data) => setNumberDrawn(data));
-        adminSocket.on('nickname_updated', (data) => setNicknameUpdated(data));
+
 
         adminSocket.on('tie_break_start', (data) => setTiedPlayers(data.tiedPlayers));
         adminSocket.on('tie_break_result', (data) => setTieWinner({ playerId: data.winnerId, playerName: data.winnerName }));
@@ -153,7 +153,7 @@ export default function AdminView() {
             adminSocket.off('room_created');
             adminSocket.off('game_state_update');
             adminSocket.off('number_drawn');
-            adminSocket.off('nickname_updated');
+
             adminSocket.off('tie_break_start');
             adminSocket.off('tie_break_result');
             adminSocket.off('player_joined');
@@ -167,7 +167,7 @@ export default function AdminView() {
     useEffect(() => {
         if (!speechEnabled || !currentBall) return;
         const utterance = new SpeechSynthesisUtterance(
-            `${currentBall.column} ${currentBall.number}. ${currentBall.nickname}`
+            `${currentBall.column} ${currentBall.number}`
         );
         utterance.lang = 'es-ES';
         utterance.rate = 0.85;
@@ -206,9 +206,7 @@ export default function AdminView() {
         setShowCloseModal(false);
     }, [roomId, stopAutoInterval]);
 
-    const handleUpdateNickname = useCallback((number, nickname) => {
-        adminSocket.emit('update_nickname', { roomId, number, nickname });
-    }, [roomId]);
+
 
     const handleToggleSpeech = useCallback(() => {
         adminSocket.emit('toggle_speech', { roomId, enabled: !speechEnabled });
