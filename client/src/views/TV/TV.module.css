@@ -31,15 +31,22 @@
     background-clip: text;
 }
 
-/* ── Área izquierda: número actual + board ────────────────────── */
+/* ── Área izquierda: board + número actual ────────────────────── */
 .tvLeft {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
     padding: 32px;
     gap: 32px;
     border-right: 1px solid var(--color-border);
+}
+
+/* Sub-columna derecha dentro de tvLeft (número + espacio futuro) */
+.tvLeftRight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
 }
 
 /* ── Área derecha: estado + stats ─────────────────────────────── */

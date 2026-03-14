@@ -262,11 +262,14 @@ export default function TVView() {
 
             {/* Área izquierda */}
             <div className={styles.tvLeft}>
-                {/* Número actual GIGANTE */}
-                <CurrentNumber currentBall={currentBall} />
-
                 {/* Grid 1-75 */}
                 <BingoBoard drawnNumbers={drawnNumbers} currentBall={currentBall} />
+
+                {/* Sub-columna derecha: número actual + espacio futuro */}
+                <div className={styles.tvLeftRight}>
+                    {/* Número actual GIGANTE */}
+                    <CurrentNumber currentBall={currentBall} />
+                </div>
             </div>
 
             {/* Área derecha */}
