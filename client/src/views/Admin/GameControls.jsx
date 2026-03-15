@@ -20,7 +20,8 @@ export default function GameControls({
     gameState, sessionType,
     onStartGame, onDrawNumber, onSpinRoulette, onNewRound, onCloseRoom,
     speechEnabled, onToggleSpeech,
-    hasRoom, drawnCount, remaining,
+    hasRoom, drawnCount, remaining, currentBall,
+    onRepeatNumber,
     // Auto-sorteo
     autoDrawEnabled, autoDrawPaused, drawInterval,
     onToggleAutoDraw, onPauseResume, onSpeedChange,
@@ -77,18 +78,29 @@ export default function GameControls({
                             </button>
                         </div>
 
-                        {/* Modo Manual: botón sacar bola */}
+                        {/* Modo Manual: botón sacar bola + repetir */}
                         {!autoDrawEnabled && (
-                            <button
-                                id="btn-draw-number"
-                                className={`btn btn-primary btn-lg ${styles.drawBtn}`}
-                                onClick={onDrawNumber}
-                            >
-                                🎱 Sacar Bola
-                                {remaining != null && (
-                                    <span className={styles.remainingBadge}>{remaining} restantes</span>
+                            <>
+                                <button
+                                    id="btn-draw-number"
+                                    className={`btn btn-primary btn-lg ${styles.drawBtn}`}
+                                    onClick={onDrawNumber}
+                                >
+                                    🎱 Sacar Bola
+                                    {remaining != null && (
+                                        <span className={styles.remainingBadge}>{remaining} restantes</span>
+                                    )}
+                                </button>
+                                {currentBall && (
+                                    <button
+                                        id="btn-repeat-number"
+                                        className="btn btn-secondary btn-sm"
+                                        onClick={onRepeatNumber}
+                                    >
+                                        🔊 Repetir {currentBall.column}-{currentBall.number}
+                                    </button>
                                 )}
-                            </button>
+                            </>
                         )}
 
                         {/* Modo Auto: controles de velocidad + pausa */}

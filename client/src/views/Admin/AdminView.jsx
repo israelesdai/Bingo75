@@ -206,6 +206,16 @@ export default function AdminView() {
         setShowCloseModal(false);
     }, [roomId, stopAutoInterval]);
 
+    const handleRepeatNumber = useCallback(() => {
+        if (!currentBall) return;
+        const utterance = new SpeechSynthesisUtterance(
+            `${currentBall.column} ${currentBall.number}`
+        );
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.85;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utterance);
+    }, [currentBall]);
 
 
     const handleToggleSpeech = useCallback(() => {
@@ -270,6 +280,8 @@ export default function AdminView() {
                     hasRoom={!!roomId}
                     drawnCount={drawnNumbers.length}
                     remaining={remaining}
+                    currentBall={currentBall}
+                    onRepeatNumber={handleRepeatNumber}
                     // Auto-sorteo
                     autoDrawEnabled={autoDrawEnabled}
                     autoDrawPaused={autoDrawPaused}
